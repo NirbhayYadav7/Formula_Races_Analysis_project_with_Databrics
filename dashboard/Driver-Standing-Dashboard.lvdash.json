@@ -45,10 +45,6 @@
                       "expression": "`driver_name`"
                     },
                     {
-                      "name": "nationality",
-                      "expression": "`nationality`"
-                    },
-                    {
                       "name": "Total_points",
                       "expression": "`Total_points`"
                     },
@@ -59,6 +55,10 @@
                     {
                       "name": "season",
                       "expression": "`season`"
+                    },
+                    {
+                      "name": "nationality",
+                      "expression": "`nationality`"
                     }
                   ],
                   "disaggregated": true
@@ -94,11 +94,9 @@
                     "fieldName": "driver_name"
                   },
                   {
-                    "fieldName": "nationality"
-                  },
-                  {
                     "fieldName": "Total_points",
-                    "contentAlignment": "center"
+                    "contentAlignment": "center",
+                    "displayName": "Points"
                   },
                   {
                     "fieldName": "number_wins",
@@ -107,6 +105,9 @@
                   {
                     "fieldName": "season",
                     "contentAlignment": "left"
+                  },
+                  {
+                    "fieldName": "nationality"
                   }
                 ]
               },
