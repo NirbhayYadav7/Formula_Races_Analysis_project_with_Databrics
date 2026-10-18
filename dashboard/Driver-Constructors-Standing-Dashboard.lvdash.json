@@ -41,6 +41,40 @@
           }
         ]
       }
+    },
+    {
+      "name": "21bd7324",
+      "displayName": "Dominant Drivers",
+      "queryLines": [
+        "with dominant_driver as(\r\n",
+        "\r\n",
+        "    select \r\n",
+        "            a.driver_name,\r\n",
+        "            sum(a.number_participations) as race_starts,\r\n",
+        "            sum(a.number_wins) as wins,\r\n",
+        "            sum(a.number_podiums) as podiums,\r\n",
+        "            sum(a.Total_points) as points,\r\n",
+        "            sum(case when a.standing_position = 1 then 1 else 0 end) as total_championships\r\n",
+        "          \r\n",
+        "    from  driver_standings  a\r\n",
+        "    group by a.driver_name\r\n",
+        ")\r\n",
+        "\r\n",
+        "select \r\n",
+        "    driver_name,\r\n",
+        "    race_starts,\r\n",
+        "    wins,\r\n",
+        "    podiums,\r\n",
+        "    points,\r\n",
+        "    total_championships,\r\n",
+        "    (total_championships*100)+(wins*10)+(podiums*3) as total_score\r\n",
+        "\r\n",
+        "from dominant_driver\r\n",
+        "order by total_score desc\r\n",
+        "limit 10;"
+      ],
+      "catalog": "formula1",
+      "schema": "gold"
     }
   ],
   "pages": [
@@ -675,6 +709,183 @@
             "x": 0,
             "y": 7,
             "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "d94907ff",
+      "displayName": "Dominant Drivers",
+      "layout": [
+        {
+          "widget": {
+            "name": "320b7e23",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Dominant Drivers"
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "5658fcd1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "21bd7324",
+                  "fields": [
+                    {
+                      "name": "driver_name",
+                      "expression": "`driver_name`"
+                    },
+                    {
+                      "name": "wins",
+                      "expression": "`wins`"
+                    },
+                    {
+                      "name": "race_starts",
+                      "expression": "`race_starts`"
+                    },
+                    {
+                      "name": "total_championships",
+                      "expression": "`total_championships`"
+                    },
+                    {
+                      "name": "total_score",
+                      "expression": "`total_score`"
+                    },
+                    {
+                      "name": "podiums",
+                      "expression": "`podiums`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": false
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "driver_name"
+                  },
+                  {
+                    "fieldName": "wins"
+                  },
+                  {
+                    "fieldName": "race_starts"
+                  },
+                  {
+                    "fieldName": "total_championships"
+                  },
+                  {
+                    "fieldName": "total_score"
+                  },
+                  {
+                    "fieldName": "podiums"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 9,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "fc0aee3e",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "21bd7324",
+                  "fields": [
+                    {
+                      "name": "driver_name",
+                      "expression": "`driver_name`"
+                    },
+                    {
+                      "name": "sum(points)",
+                      "expression": "SUM(`points`)"
+                    },
+                    {
+                      "name": "total_championships",
+                      "expression": "`total_championships`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "mark": {
+                "layout": "stack"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "driver_name",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "total_championships",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "driver_name",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                },
+                "extra": [
+                  {
+                    "fieldName": "sum(points)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 7,
             "height": 6
           }
         }
